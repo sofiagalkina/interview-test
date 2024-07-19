@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Job Form</title>
+    <title>Pipedrive Form</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -77,153 +77,142 @@
 </head>
 <body>
     <div class="container">
-        <div class="card">
-            <h2>Client Details</h2>
-            <label for="firstName">First Name:</label>
-            <input type="text" id="firstName" name="firstName" required>
-            
-            <label for="lastName">Last Name:</label>
-            <input type="text" id="lastName" name="lastName" required>
-            
-            <label for="phoneNumber">Phone Number:</label>
-            <input type="text" id="phoneNumber" name="phoneNumber" required>
-            
-            <label for="email">Email (optional):</label>
-            <input type="email" id="email" name="email">
-        </div>
-        
-        <div class="card">
-            <h2>Job Details</h2>
-            <label for="jobType">Job Type:</label>
-            <select id="jobType" name="jobType" required>
-                <option value="">Select Job Type</option>
-            </select>
-            
-            <label for="jobCategory">Job Category:</label>
-            <select id="jobCategory" name="jobCategory" required>
-                <option value="">Select Job Category</option>
-            </select>
-            
-            <label for="description">Description:</label>
-            <textarea id="description" name="description" rows="4" required></textarea>
-        </div>
-        
-        <div class="card">
-            <h2>Service Location</h2>
-            <label for="address">Address:</label>
-            <input type="text" id="address" name="address" required>
-            
-            <label for="city">City:</label>
-            <input type="text" id="city" name="city" required>
-            
-            <label for="state">State:</label>
-            <input type="text" id="state" name="state" required>
-            
-            <label for="zipCode">Zip Code:</label>
-            <input type="text" id="zipCode" name="zipCode" required>
-        </div>
-        
-        <div class="card">
-            <h2>Scheduled</h2>
-            <label for="date">Date:</label>
-            <input type="date" id="date" name="date" required>
-            
-            <div class="date-time-field">
-                <label for="startTime">Start Time:</label>
-                <input type="time" id="startTime" name="startTime" required>
+        <form id="dealForm">
+            <div class="card">
+                <h2>Client Details</h2>
+                <label for="firstName">First Name:</label>
+                <input type="text" id="firstName" name="firstName" required>
+                
+                <label for="lastName">Last Name:</label>
+                <input type="text" id="lastName" name="lastName" required>
+                
+                <label for="phoneNumber">Phone Number:</label>
+                <input type="text" id="phoneNumber" name="phoneNumber" required>
+                
+                <label for="email">Email (optional):</label>
+                <input type="email" id="email" name="email">
             </div>
             
-            <div class="date-time-field">
-                <label for="endTime">End Time:</label>
-                <input type="time" id="endTime" name="endTime" required>
+            <div class="card">
+                <h2>Job Details</h2>
+                <label for="jobType">Job Type:</label>
+                <select id="jobType" name="jobType" required>
+                    <option value="">Select Job Type</option>
+                    <!-- Add options dynamically or statically here -->
+                </select>
+                
+                <label for="jobCategory">Job Category:</label>
+                <select id="jobCategory" name="jobCategory" required>
+                    <option value="">Select Job Category</option>
+                    <!-- Add options dynamically or statically here -->
+                </select>
+                
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" rows="4" required></textarea>
             </div>
-        </div>
-        
-        <div class="btn-container">
-            <button type="submit">Submit</button>
-        </div>
+            
+            <div class="card">
+                <h2>Service Location</h2>
+                <label for="address">Address:</label>
+                <input type="text" id="address" name="address" required>
+                
+                <label for="city">City:</label>
+                <input type="text" id="city" name="city" required>
+                
+                <label for="state">State:</label>
+                <input type="text" id="state" name="state" required>
+                
+                <label for="zipCode">Zip Code:</label>
+                <input type="text" id="zipCode" name="zipCode" required>
+            </div>
+            
+            <div class="card">
+                <h2>Scheduled</h2>
+                <label for="date">Date:</label>
+                <input type="date" id="date" name="date" required>
+                
+                <div class="date-time-field">
+                    <label for="startTime">Start Time:</label>
+                    <input type="time" id="startTime" name="startTime" required>
+                </div>
+                
+                <div class="date-time-field">
+                    <label for="endTime">End Time:</label>
+                    <input type="time" id="endTime" name="endTime" required>
+                </div>
+            </div>
+            
+            <div class="btn-container">
+                <button type="submit">Submit</button>
+            </div>
+        </form>
     </div>
 
     <script>
-        const apiToken = '6db9f0d23a8dd139c55d4c32953383111686c429';
+        document.addEventListener('DOMContentLoaded', () => {
+            const apiToken = '6db9f0d23a8dd139c55d4c32953383111686c429';
 
-        // Fetch and populate stages
-        fetch(`https://api.pipedrive.com/v1/stages?api_token=${apiToken}`)
-            .then(response => response.json())
-            .then(data => {
-                const stageSelect = document.getElementById('stage');
-                if (stageSelect) {
-                    data.data.forEach(stage => {
-                        const option = document.createElement('option');
-                        option.value = stage.id;
-                        option.textContent = stage.name;
-                        stageSelect.appendChild(option);
-                    });
-                }
-            })
-            .catch(error => console.error('Error fetching stages:', error));
+            // Fetch and populate stages
+            fetch(`https://api.pipedrive.com/v1/stages?api_token=${apiToken}`)
+                .then(response => response.json())
+                .then(data => {
+                    const stageSelect = document.getElementById('stage');
+                    if (stageSelect) {
+                        data.data.forEach(stage => {
+                            const option = document.createElement('option');
+                            option.value = stage.id;
+                            option.textContent = stage.name;
+                            stageSelect.appendChild(option);
+                        });
+                    }
+                })
+                .catch(error => console.error('Error fetching stages:', error));
 
-        document.getElementById('dealForm').addEventListener('submit', function(event) {
-            event.preventDefault();
+            document.getElementById('dealForm').addEventListener('submit', function(event) {
+                event.preventDefault();
 
-            const formData = {
-                title: document.getElementById('title').value,
-                value: document.getElementById('value').value,
-                stage_id: document.getElementById('stage') ? document.getElementById('stage').value : '',
-                firstName: document.getElementById('firstName').value,
-                lastName: document.getElementById('lastName').value,
-                phoneNumber: document.getElementById('phoneNumber').value,
-                email: document.getElementById('email').value,
-                jobType: document.getElementById('jobType').value,
-                jobCategory: document.getElementById('jobCategory').value,
-                description: document.getElementById('description').value,
-                address: document.getElementById('address').value,
-                city: document.getElementById('city').value,
-                state: document.getElementById('state').value,
-                zipCode: document.getElementById('zipCode').value,
-                date: document.getElementById('date').value,
-                startTime: document.getElementById('startTime').value,
-                endTime: document.getElementById('endTime').value,
-            };
+                const formData = {
+                    title: document.getElementById('title') ? document.getElementById('title').value : 'No Title',
+                    value: document.getElementById('value') ? document.getElementById('value').value : 0,
+                    stage_id: document.getElementById('stage') ? document.getElementById('stage').value : 1, // Default stage if not set
+                    firstName: document.getElementById('firstName').value,
+                    lastName: document.getElementById('lastName').value,
+                    phoneNumber: document.getElementById('phoneNumber').value,
+                    email: document.getElementById('email').value,
+                    jobType: document.getElementById('jobType').value,
+                    jobCategory: document.getElementById('jobCategory').value,
+                    description: document.getElementById('description').value,
+                    address: document.getElementById('address').value,
+                    city: document.getElementById('city').value,
+                    state: document.getElementById('state').value,
+                    zipCode: document.getElementById('zipCode').value,
+                    date: document.getElementById('date').value,
+                    startTime: document.getElementById('startTime').value,
+                    endTime: document.getElementById('endTime').value,
+                };
 
-            // Create deal in Pipedrive
-            const dealData = {
-                title: formData.title || 'No Title',
-                value: formData.value || 0,
-                stage_id: formData.stage_id || 1, 
-                person_name: `${formData.firstName} ${formData.lastName}`,
-                phone: formData.phoneNumber,
-                email: formData.email,
-                description: formData.description,
-                address: formData.address,
-                city: formData.city,
-                state: formData.state,
-                zip: formData.zipCode,
-                expected_close_date: formData.date,
-                start_time: formData.startTime,
-                end_time: formData.endTime
-            };
-
-            fetch(`https://api.pipedrive.com/v1/deals?api_token=${apiToken}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(dealData)
-            })
-            .then(response => response.json())
-            .then(data => {
-                if(data.success) {
-                    console.log('Success:', data);
-                    alert('Deal created successfully!');
-                } else {
-                    console.error('Error:', data);
-                    alert('Error creating deal: ' + data.error);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Error creating deal.');
+                // Create deal in Pipedrive
+                fetch(`https://api.pipedrive.com/v1/deals?api_token=${apiToken}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if(data.success) {
+                        console.log('Success:', data);
+                        alert('Deal created successfully!');
+                    } else {
+                        console.error('Error:', data);
+                        alert('Error creating deal: ' + data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error creating deal.');
+                });
             });
         });
     </script>
