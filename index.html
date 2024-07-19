@@ -172,7 +172,7 @@
                 event.preventDefault();
 
                 const formData = {
-                    title: document.getElementById('title') ? document.getElementById('title').value : 'No Title',
+                    title: document.getElementById('firstName').value + ' ' + document.getElementById('lastName').value,
                     value: document.getElementById('value') ? document.getElementById('value').value : 0,
                     stage_id: document.getElementById('stage') ? document.getElementById('stage').value : 1, // Default stage if not set
                     firstName: document.getElementById('firstName').value,
