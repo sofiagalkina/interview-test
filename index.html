@@ -6,7 +6,7 @@
     <title>Pipedrive Form</title>
 </head>
 <body>
-    <h1>Submit Deal to Pipedrive</h1>
+    <h1>Submit Deal to Pipedrive:</h1>
     <form id="dealForm">
         <label for="title">Title:</label>
         <input type="text" id="title" name="title" required><br><br>
@@ -29,7 +29,7 @@
                 value: value,
                 stage_id: stage_id
             };
-            
+
             const apiToken = '6db9f0d23a8dd139c55d4c32953383111686c429';
 
             fetch(`https://api.pipedrive.com/v1/deals?api_token=${apiToken}`, {
