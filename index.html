@@ -3,21 +3,146 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pipedrive Form</title>
+    <title>Job Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            width: 80%;
+            max-width: 1200px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .card {
+            flex: 1;
+            min-width: 300px;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+        .card h2 {
+            margin-top: 0;
+        }
+        .card label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        .card input, .card select, .card textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .card textarea {
+            resize: vertical;
+        }
+        .date-time-field {
+            display: flex;
+            gap: 10px;
+        }
+        .date-time-field input {
+            flex: 1;
+        }
+        .card .btn-container {
+            text-align: center;
+        }
+        .btn-container button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .btn-container button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-    <h1>Submit Deal to Pipedrive</h1>
-    <form id="dealForm">
-        <label for="title">Title:</label>
-        <input type="text" id="title" name="title" required><br><br>
-        <label for="value">Value:</label>
-        <input type="number" id="value" name="value" required><br><br>
-        <label for="stage">Stage:</label>
-        <select id="stage" name="stage" required>
-            <option value="">Select a stage</option>
-        </select><br><br>
-        <button type="submit">Submit</button>
-    </form>
+    <div class="container">
+        <div class="card">
+            <h2>Client Details</h2>
+            <label for="firstName">First Name:</label>
+            <input type="text" id="firstName" name="firstName" required>
+            
+            <label for="lastName">Last Name:</label>
+            <input type="text" id="lastName" name="lastName" required>
+            
+            <label for="phoneNumber">Phone Number:</label>
+            <input type="text" id="phoneNumber" name="phoneNumber" required>
+            
+            <label for="email">Email (optional):</label>
+            <input type="email" id="email" name="email">
+        </div>
+        
+        <div class="card">
+            <h2>Job Details</h2>
+            <label for="jobType">Job Type:</label>
+            <select id="jobType" name="jobType" required>
+                <option value="">Select Job Type</option>
+            </select>
+            
+            <label for="jobCategory">Job Category:</label>
+            <select id="jobCategory" name="jobCategory" required>
+                <option value="">Select Job Category</option>
+            </select>
+            
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" rows="4" required></textarea>
+        </div>
+        
+        <div class="card">
+            <h2>Service Location</h2>
+            <label for="address">Address:</label>
+            <input type="text" id="address" name="address" required>
+            
+            <label for="city">City:</label>
+            <input type="text" id="city" name="city" required>
+            
+            <label for="state">State:</label>
+            <input type="text" id="state" name="state" required>
+            
+            <label for="zipCode">Zip Code:</label>
+            <input type="text" id="zipCode" name="zipCode" required>
+        </div>
+        
+        <div class="card">
+            <h2>Scheduled</h2>
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" required>
+            
+            <div class="date-time-field">
+                <label for="startTime">Start Time:</label>
+                <input type="time" id="startTime" name="startTime" required>
+            </div>
+            
+            <div class="date-time-field">
+                <label for="endTime">End Time:</label>
+                <input type="time" id="endTime" name="endTime" required>
+            </div>
+        </div>
+        
+        <div class="btn-container">
+            <button type="submit">Submit</button>
+        </div>
+    </div>
 
     <script>
         const apiToken = '6db9f0d23a8dd139c55d4c32953383111686c429';
@@ -27,25 +152,56 @@
             .then(response => response.json())
             .then(data => {
                 const stageSelect = document.getElementById('stage');
-                data.data.forEach(stage => {
-                    const option = document.createElement('option');
-                    option.value = stage.id;
-                    option.textContent = stage.name;
-                    stageSelect.appendChild(option);
-                });
+                if (stageSelect) {
+                    data.data.forEach(stage => {
+                        const option = document.createElement('option');
+                        option.value = stage.id;
+                        option.textContent = stage.name;
+                        stageSelect.appendChild(option);
+                    });
+                }
             })
             .catch(error => console.error('Error fetching stages:', error));
 
         document.getElementById('dealForm').addEventListener('submit', function(event) {
             event.preventDefault();
-            const title = document.getElementById('title').value;
-            const value = document.getElementById('value').value;
-            const stage_id = document.getElementById('stage').value;
 
+            const formData = {
+                title: document.getElementById('title').value,
+                value: document.getElementById('value').value,
+                stage_id: document.getElementById('stage') ? document.getElementById('stage').value : '',
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                phoneNumber: document.getElementById('phoneNumber').value,
+                email: document.getElementById('email').value,
+                jobType: document.getElementById('jobType').value,
+                jobCategory: document.getElementById('jobCategory').value,
+                description: document.getElementById('description').value,
+                address: document.getElementById('address').value,
+                city: document.getElementById('city').value,
+                state: document.getElementById('state').value,
+                zipCode: document.getElementById('zipCode').value,
+                date: document.getElementById('date').value,
+                startTime: document.getElementById('startTime').value,
+                endTime: document.getElementById('endTime').value,
+            };
+
+            // Create deal in Pipedrive
             const dealData = {
-                title: title,
-                value: value,
-                stage_id: stage_id
+                title: formData.title || 'No Title',
+                value: formData.value || 0,
+                stage_id: formData.stage_id || 1, 
+                person_name: `${formData.firstName} ${formData.lastName}`,
+                phone: formData.phoneNumber,
+                email: formData.email,
+                description: formData.description,
+                address: formData.address,
+                city: formData.city,
+                state: formData.state,
+                zip: formData.zipCode,
+                expected_close_date: formData.date,
+                start_time: formData.startTime,
+                end_time: formData.endTime
             };
 
             fetch(`https://api.pipedrive.com/v1/deals?api_token=${apiToken}`, {
